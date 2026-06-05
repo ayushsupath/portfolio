@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
+import ContactModal from './ContactModal';
 
 const navLinks = [
   { to: '/', label: 'Home' },
@@ -15,6 +16,7 @@ const navLinks = [
 
 export default function CinematicNavbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
   return (
     <>
@@ -44,9 +46,12 @@ export default function CinematicNavbar() {
 
         {/* CTA Button & Mobile Toggle */}
         <div className="pointer-events-auto flex items-center space-x-4 z-50">
-          <a href="#contact" className="hidden md:inline-block bg-white text-black px-6 py-3 rounded-full font-bold uppercase tracking-widest text-xs hover:scale-105 transition-transform">
+          <button 
+            onClick={() => setIsContactModalOpen(true)}
+            className="hidden md:inline-block bg-white text-black px-6 py-3 rounded-full font-bold uppercase tracking-widest text-xs hover:scale-105 transition-transform"
+          >
             Let's Talk
-          </a>
+          </button>
           <button 
             className="lg:hidden text-white hover:text-lime-neon transition-colors p-2"
             onClick={() => setIsOpen(!isOpen)}
@@ -76,14 +81,21 @@ export default function CinematicNavbar() {
             {link.label}
           </NavLink>
         ))}
-        <a 
-          href="#contact" 
-          onClick={() => setIsOpen(false)}
+        <button 
+          onClick={() => {
+            setIsOpen(false);
+            setIsContactModalOpen(true);
+          }}
           className="mt-8 bg-lime-neon text-black px-8 py-4 rounded-full font-bold uppercase tracking-widest text-sm hover:scale-105 transition-transform"
         >
           Let's Talk
-        </a>
+        </button>
       </div>
+
+      <ContactModal 
+        isOpen={isContactModalOpen} 
+        onClose={() => setIsContactModalOpen(false)} 
+      />
     </>
   );
 }

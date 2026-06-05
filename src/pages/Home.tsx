@@ -1,5 +1,4 @@
 import Hero3D from '../components/Hero3D';
-import BentoGrid from '../components/BentoGrid';
 
 export default function Home() {
   return (
@@ -24,8 +23,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      <BentoGrid />
     </div>
   );
 }

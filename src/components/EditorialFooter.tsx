@@ -12,7 +12,7 @@ export default function EditorialFooter() {
             </h2>
             <div className="flex space-x-8 justify-center md:justify-start">
               {[
-                { Icon: Github, href: 'https://github.com/InsaanAyu' },
+                { Icon: Github, href: 'https://github.com/ayushsupath' },
                 { Icon: Linkedin, href: 'https://linkedin.com/in/ayushsupath' },
                 { Icon: Twitter, href: '#' },
               ].map(({ Icon, href }, idx) => (
