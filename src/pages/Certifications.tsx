@@ -1,6 +1,7 @@
 import { Award, ExternalLink } from 'lucide-react';
 
 const certifications = [
+  { name: 'Software Engineer Intern', issuer: 'HackerRank', color: 'from-green-500 to-emerald-500', icon: '💻', link: 'https://drive.google.com/file/d/1ayivPbNbJxV_bo8SQhkd7QEnjW7BdT92/view?usp=sharing' },
   { name: 'Python (Basic)', issuer: 'HackerRank', color: 'from-teal-500 to-cyan-500', icon: '🐍', link: 'https://drive.google.com/file/d/1RaYSyBTIeghVlacefpG5sCRAPSPU9mNw/view?usp=sharing' },
   { name: 'Advance Java with DSA', issuer: 'Codding Shuttle', color: 'from-orange-500 to-red-500', icon: '☕', link: 'https://drive.google.com/file/d/1e7qRLZ4tXDh8IFKVuspvZRfK1bnAF0TX/view?usp=sharing' },
   { name: 'Networking Essential', issuer: 'Cisco', color: 'from-blue-500 to-indigo-500', icon: '🌐', link: 'https://drive.google.com/file/d/1NcMZ7dovI3WqG7sdgSuRe2Ue7KCPaoP_/view?usp=sharing' },
