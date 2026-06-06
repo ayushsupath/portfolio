@@ -6,16 +6,19 @@ const experiences = [
     company: 'Skillbit Technologies',
     location: 'Remote',
     duration: 'April 2026 – June 2026',
+    color: 'from-cyan-500 to-blue-600',
     responsibilities: [
       'Built and deployed ML models including Iris Flower Classifier and Email Spam Detector using Python, scikit-learn, and Pandas under industry mentorship',
       'Gained hands-on experience in data preprocessing, feature engineering, model evaluation, and building Python-based data pipelines for classification tasks'
-    ]
+    ],
+    certificateUrl: 'https://drive.google.com/file/d/1nl7SPKRUXeB2yMgDVXiaZUrjegGiiQPk/view?usp=drive_link'
   },
   {
     title: 'Full Stack Web Development Trainer',
     company: 'Angel Wallah',
     location: 'Mhow, India',
     duration: 'July 2024 – January 2025',
+    color: 'from-orange-500 to-red-600',
     responsibilities: [
       'Conducted comprehensive workshops on full stack web development, covering both frontend and backend technologies',
       'Designed and facilitated practical, real-world coding projects to reinforce student learning and application'
@@ -37,7 +40,7 @@ export default function Experience() {
         <div className="space-y-8">
           {experiences.map((experience, index) => (
             <div key={index} className="relative">
-              <div className="bg-gradient-to-br from-orange-500 to-red-600 rounded-3xl p-10 border border-white/20 shadow-2xl hover:shadow-3xl transition-all duration-300 relative overflow-hidden sm:p-5">
+              <div className={`bg-gradient-to-br ${experience.color} rounded-3xl p-10 border border-white/20 shadow-2xl hover:shadow-3xl transition-all duration-300 relative overflow-hidden sm:p-5`}>
                 {/* Animated Background Pattern */}
                 <div className="absolute inset-0 opacity-10">
                   <div className="absolute top-4 left-4 w-20 h-20 border-2 border-white rounded-full animate-spin-slow"></div>
@@ -67,6 +70,18 @@ export default function Experience() {
                         <p className="text-white/90 text-lg leading-relaxed sm:text-sm">{responsibility}</p>
                       </div>
                     ))}
+                    {experience.certificateUrl && (
+                      <div className="mt-4">
+                        <a
+                          href={experience.certificateUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center justify-center rounded-full bg-white/10 border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/15 hover:text-white"
+                        >
+                          View Certificate
+                        </a>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
