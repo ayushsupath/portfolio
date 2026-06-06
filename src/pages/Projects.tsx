@@ -100,6 +100,17 @@ export default function Projects() {
             </div>
           ))}
         </div>
+
+        <div className="mt-12 flex justify-center">
+          <a
+            href="https://github.com/ayushsupath"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center rounded-full bg-white text-slate-900 font-semibold px-8 py-4 shadow-lg shadow-white/10 transition transform hover:-translate-y-1 hover:scale-[1.01] hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+          >
+            More projects
+          </a>
+        </div>
       </div>
     </div>
   );

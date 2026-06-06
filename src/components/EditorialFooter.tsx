@@ -1,4 +1,4 @@
-import { Github, Linkedin, Twitter } from 'lucide-react';
+import { Github, Linkedin } from 'lucide-react';
 
 export default function EditorialFooter() {
   return (
@@ -14,7 +14,6 @@ export default function EditorialFooter() {
               {[
                 { Icon: Github, href: 'https://github.com/ayushsupath' },
                 { Icon: Linkedin, href: 'https://linkedin.com/in/ayushsupath' },
-                { Icon: Twitter, href: '#' },
               ].map(({ Icon, href }, idx) => (
                 <a
                   key={idx}
