@@ -1,4 +1,5 @@
 import Hero3D from '../components/Hero3D';
+import GitHubStats from '../components/GitHubStats';
 
 export default function Home() {
   return (
@@ -23,6 +24,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* GitHub Stats Section */}
+      <GitHubStats />
     </div>
   );
 }
