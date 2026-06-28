@@ -113,3 +113,21 @@ input[type="range"].glow-slider:focus {
 input[type="range"].glow-slider:focus::-webkit-slider-thumb {
   box-shadow: 0 0 16px 4px rgba(0, 255, 65, 0.8);
 }
+
+/* Hide internal scrollbar of react-github-calendar */
+.react-activity-calendar,
+.react-activity-calendar > div {
+  overflow: visible !important;
+}
+
+/* Premium glassmorphic tooltip styling for the calendar */
+.react-activity-calendar__tooltip {
+  background: rgba(15, 23, 42, 0.9) !important;
+  backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+  border-radius: 6px !important;
+  padding: 6px 10px !important;
+  font-size: 12px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+}

@@ -16,6 +16,7 @@ export default function GitHubStats() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [totalContributions, setTotalContributions] = useState<number | null>(null);
+  const [selectedYear, setSelectedYear] = useState<number | 'last'>('last');
   const [publicRepos, setPublicRepos] = useState<number>(0);
   const [followers, setFollowers] = useState<number>(0);
   const [totalStars, setTotalStars] = useState<number>(0);
@@ -222,29 +223,51 @@ export default function GitHubStats() {
           </div>
 
           <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-6 border border-white/10 hover:border-purple-400/30 transition-all duration-300 min-h-[350px]">
-            <div className="text-gray-300 mb-4">Contribution Activity Graph</div>
-            <div className="w-full overflow-x-auto rounded-xl bg-white/5 p-4 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
-              <div className="min-w-[800px] md:min-w-0">
-                <GitHubCalendar
-                  username={gitHubUsername}
-                  year="last"
-                  colorScheme="dark"
-                  theme={{
-                    dark: ['#1e293b', '#0f2f1d', '#15803d', '#22c55e', '#bef264'],
-                  }}
-                  fontSize={13}
-                  blockSize={13}
-                  blockMargin={4}
-                  labels={{
-                    totalCount: '{{count}} contributions in the last year',
-                  }}
-                  transformData={(contributions: Activity[]) => {
-                    const total = contributions.reduce((sum, day) => sum + day.count, 0);
-                    // Use queueMicrotask to avoid setState during render
-                    queueMicrotask(() => setTotalContributions(total));
-                    return contributions;
-                  }}
-                />
+            <div className="flex flex-col lg:flex-row gap-6">
+              {/* Left: Calendar & Legend */}
+              <div className="flex-1 min-w-0">
+                <div className="text-gray-300 mb-4 font-bold">Contribution Activity Graph</div>
+                <div className="w-full overflow-x-auto touch-pan-x py-6 px-4 bg-white/5 rounded-xl scrollbar-thin scrollbar-thumb-lime-neon/30 scrollbar-track-white/5">
+                  <div className="min-w-[800px]">
+                    <GitHubCalendar
+                      key={selectedYear}
+                      username={gitHubUsername}
+                      year={selectedYear}
+                      colorScheme="dark"
+                      theme={{
+                        dark: ['#1e293b', '#0f2f1d', '#15803d', '#22c55e', '#bef264'],
+                      }}
+                      fontSize={13}
+                      blockSize={13}
+                      blockMargin={4}
+                      labels={{
+                        totalCount: '{{count}} contributions in {{year}}',
+                      }}
+                      transformData={(contributions: Activity[]) => {
+                        const total = contributions.reduce((sum, day) => sum + day.count, 0);
+                        queueMicrotask(() => setTotalContributions(total));
+                        return contributions;
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Right: Year List Selector */}
+              <div className="flex lg:flex-col gap-2 flex-wrap lg:justify-start justify-center">
+                {['last', 2026, 2025, 2024, 2023].map((y) => (
+                  <button
+                    key={y}
+                    onClick={() => setSelectedYear(y as number | 'last')}
+                    className={`px-4 py-2 rounded-lg text-sm font-semibold transition ${
+                      selectedYear === y
+                        ? 'bg-lime-neon text-slate-900 shadow-md shadow-lime-neon/20'
+                        : 'bg-white/5 text-gray-400 hover:bg-white/10'
+                    }`}
+                  >
+                    {y === 'last' ? 'Recent' : y}
+                  </button>
+                ))}
               </div>
             </div>
           </div>
