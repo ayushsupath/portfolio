@@ -1,5 +1,6 @@
 import { Github } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { GitHubCalendar, type Activity } from 'react-github-calendar';
 
 const languageColorMap: Record<string, string> = {
   TypeScript: 'from-blue-500 to-cyan-500',
@@ -14,6 +15,7 @@ export default function GitHubStats() {
   const gitHubUsername = 'ayushsupath';
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [totalContributions, setTotalContributions] = useState<number | null>(null);
   const [publicRepos, setPublicRepos] = useState<number>(0);
   const [followers, setFollowers] = useState<number>(0);
   const [totalStars, setTotalStars] = useState<number>(0);
@@ -44,7 +46,7 @@ export default function GitHubStats() {
         }
 
         const userData = await userRes.json();
-        const reposData = await reposRes.json();
+        const reposData: Array<{ stargazers_count: number; language: string | null }> = await reposRes.json();
 
         if (!isMounted) return;
 
@@ -80,8 +82,9 @@ export default function GitHubStats() {
         if (!isMounted) return;
         setError(err instanceof Error ? err.message : 'Failed to load GitHub statistics');
       } finally {
-        if (!isMounted) return;
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     }
 
@@ -145,7 +148,9 @@ export default function GitHubStats() {
                 </div>
                 <div className="flex justify-between items-center p-3 bg-white/5 rounded-lg hover:bg-white/10 transition">
                   <span className="text-gray-400">Contributions (1y)</span>
-                  <span className="text-2xl font-bold text-pink-400">—</span>
+                  <span className="text-2xl font-bold text-pink-400">
+                    {totalContributions !== null ? totalContributions.toLocaleString() : '—'}
+                  </span>
                 </div>
               </div>
               <a
@@ -216,10 +221,31 @@ export default function GitHubStats() {
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-6 border border-white/10 hover:border-purple-400/30 transition-all duration-300 overflow-hidden min-h-[350px]">
-            <div className="text-gray-300 mb-4">Contribution activity graph</div>
-            <div className="text-center text-sm text-gray-300 p-8 bg-white/5 rounded-xl">
-              GitHub contribution graph support is not available here. Visit my GitHub profile to see the live activity calendar.
+          <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-6 border border-white/10 hover:border-purple-400/30 transition-all duration-300 min-h-[350px]">
+            <div className="text-gray-300 mb-4">Contribution Activity Graph</div>
+            <div className="w-full overflow-x-auto rounded-xl bg-white/5 p-4 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+              <div className="min-w-[800px] md:min-w-0">
+                <GitHubCalendar
+                  username={gitHubUsername}
+                  year="last"
+                  colorScheme="dark"
+                  theme={{
+                    dark: ['#1e293b', '#0f2f1d', '#15803d', '#22c55e', '#bef264'],
+                  }}
+                  fontSize={13}
+                  blockSize={13}
+                  blockMargin={4}
+                  labels={{
+                    totalCount: '{{count}} contributions in the last year',
+                  }}
+                  transformData={(contributions: Activity[]) => {
+                    const total = contributions.reduce((sum, day) => sum + day.count, 0);
+                    // Use queueMicrotask to avoid setState during render
+                    queueMicrotask(() => setTotalContributions(total));
+                    return contributions;
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>
