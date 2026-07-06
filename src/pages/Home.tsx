@@ -28,6 +28,8 @@ export default function Home() {
 
       {/* GitHub Stats Section */}
       <GitHubStats />
+
+      {/* LeetCode Stats Section */}
       <LeetCodeStats />
     </div>
   );

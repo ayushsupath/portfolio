@@ -1,4 +1,4 @@
-import { Bot, Code, Globe, ExternalLink } from 'lucide-react';
+import { Bot, Code, Globe } from 'lucide-react';
 
 const projects = [
   {

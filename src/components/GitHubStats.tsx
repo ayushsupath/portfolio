@@ -1,6 +1,6 @@
 import { Github } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { GitHubCalendar, type Activity } from 'react-github-calendar';
+import { GitHubCalendar } from 'react-github-calendar';
 
 const languageColorMap: Record<string, string> = {
   TypeScript: 'from-blue-500 to-cyan-500',
@@ -15,8 +15,7 @@ export default function GitHubStats() {
   const gitHubUsername = 'ayushsupath';
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [totalContributions, setTotalContributions] = useState<number | null>(null);
-  const [selectedYear, setSelectedYear] = useState<number | 'last'>('last');
+  const [selectedYear, setSelectedYear] = useState<number>(2026);
   const [publicRepos, setPublicRepos] = useState<number>(0);
   const [followers, setFollowers] = useState<number>(0);
   const [totalStars, setTotalStars] = useState<number>(0);
@@ -121,7 +120,7 @@ export default function GitHubStats() {
         {/* Stats Grid */}
         <div className="grid md:grid-cols-2 gap-8 mb-12">
           {/* Main Stats Card */}
-          <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-8 border border-white/10 hover:border-lime-neon/30 transition-all duration-300 overflow-hidden group">
+          <div className="relative bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-8 border border-white/10 hover:border-lime-neon/30 transition-all duration-300 overflow-hidden group">
             <div className="absolute inset-0 bg-gradient-to-r from-lime-neon/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             <div className="relative z-10">
               <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
@@ -150,7 +149,7 @@ export default function GitHubStats() {
                 <div className="flex justify-between items-center p-3 bg-white/5 rounded-lg hover:bg-white/10 transition">
                   <span className="text-gray-400">Contributions (1y)</span>
                   <span className="text-2xl font-bold text-pink-400">
-                    {totalContributions !== null ? totalContributions.toLocaleString() : '—'}
+                    {loading ? '—' : '—'}
                   </span>
                 </div>
               </div>
@@ -167,7 +166,7 @@ export default function GitHubStats() {
           </div>
 
           {/* Top Languages */}
-          <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-8 border border-white/10 hover:border-blue-400/30 transition-all duration-300 overflow-hidden group">
+          <div className="relative bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-8 border border-white/10 hover:border-blue-400/30 transition-all duration-300 overflow-hidden group">
             <div className="absolute inset-0 bg-gradient-to-r from-blue-400/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             <div className="relative z-10">
               <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
@@ -243,11 +242,6 @@ export default function GitHubStats() {
                       labels={{
                         totalCount: '{{count}} contributions in {{year}}',
                       }}
-                      transformData={(contributions: Activity[]) => {
-                        const total = contributions.reduce((sum, day) => sum + day.count, 0);
-                        queueMicrotask(() => setTotalContributions(total));
-                        return contributions;
-                      }}
                     />
                   </div>
                 </div>
@@ -255,17 +249,17 @@ export default function GitHubStats() {
 
               {/* Right: Year List Selector */}
               <div className="flex lg:flex-col gap-2 flex-wrap lg:justify-start justify-center">
-                {['last', 2026, 2025, 2024, 2023].map((y) => (
+                {[2026, 2025, 2024, 2023].map((y) => (
                   <button
                     key={y}
-                    onClick={() => setSelectedYear(y as number | 'last')}
+                    onClick={() => setSelectedYear(y)}
                     className={`px-4 py-2 rounded-lg text-sm font-semibold transition ${
                       selectedYear === y
                         ? 'bg-lime-neon text-slate-900 shadow-md shadow-lime-neon/20'
                         : 'bg-white/5 text-gray-400 hover:bg-white/10'
                     }`}
                   >
-                    {y === 'last' ? 'Recent' : y}
+                    {y}
                   </button>
                 ))}
               </div>

@@ -32,24 +32,7 @@ export default function EditorialFooter() {
 
         {/* Right Column */}
         <div className="flex flex-col justify-between md:items-end text-center md:text-right mt-12 md:mt-0">
-          <div className="w-full max-w-sm mx-auto md:mx-0">
-            <h3 className="text-xl md:text-2xl font-bold mb-4">Stay Updated</h3>
-            <form className="relative group">
-              <input
-                type="email"
-                placeholder="ENTER EMAIL"
-                className="w-full bg-transparent border-b border-zinc-600 py-4 outline-none focus:border-lime-neon transition-colors uppercase tracking-widest text-sm placeholder-zinc-600"
-              />
-              <button
-                type="submit"
-                className="absolute right-0 top-1/2 -translate-y-1/2 text-lime-neon font-bold opacity-0 group-hover:opacity-100 transition-opacity"
-              >
-                SUBMIT
-              </button>
-            </form>
-          </div>
-          
-          <div className="mt-16 md:mt-24">
+          <div className="mt-16 md:mt-0">
             <p className="text-zinc-600 tracking-widest text-[10px] md:text-xs uppercase">
               © {new Date().getFullYear()} Ayush Supath.
               <br className="hidden md:block" /> All rights reserved.

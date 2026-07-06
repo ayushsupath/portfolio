@@ -35,7 +35,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
       } else {
         setStatus('error');
       }
-    } catch (error) {
+    } catch {
       setStatus('error');
     }
   };

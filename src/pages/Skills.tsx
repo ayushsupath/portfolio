@@ -1,5 +1,3 @@
-import { Code } from 'lucide-react';
-
 const skills = [
   { name: 'JavaScript', icon: '⚡', color: 'from-yellow-400 to-orange-500', category: 'Programming' },
   { name: 'Java', icon: '☕', color: 'from-red-500 to-orange-600', category: 'Programming' },

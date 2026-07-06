@@ -33,6 +33,7 @@ export default function CinematicNavbar() {
             <NavLink
               key={link.to}
               to={link.to}
+              end={link.to === '/'}
               className={({ isActive }) =>
                 `uppercase tracking-widest text-xs md:text-sm font-medium transition-colors hover:text-lime-neon ${
                   isActive ? 'text-lime-neon' : 'text-zinc-400'
@@ -71,6 +72,7 @@ export default function CinematicNavbar() {
           <NavLink
             key={link.to}
             to={link.to}
+            end={link.to === '/'}
             onClick={() => setIsOpen(false)}
             className={({ isActive }) =>
               `uppercase tracking-widest text-xl font-bold transition-all duration-300 ${

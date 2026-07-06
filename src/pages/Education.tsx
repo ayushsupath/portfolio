@@ -1,5 +1,3 @@
-import { GraduationCap } from 'lucide-react';
-
 const education = [
   {
     degree: 'Master of Computer Applications (MCA)',
@@ -47,7 +45,7 @@ export default function Education() {
           <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-purple-500 via-blue-500 to-teal-500 hidden md:block"></div>
 
           <div className="space-y-10 sm:space-y-5">
-            {education.map((edu, index) => (
+            {education.map((edu) => (
               <div
                 key={edu.degree}
                 className="group relative md:pl-24 transform transition-all duration-700 hover:scale-[1.02]"
