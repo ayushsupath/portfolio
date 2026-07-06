@@ -32,6 +32,15 @@ export default function LeetCodeStats() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedYear, setSelectedYear] = useState<number>(2026);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024);
+  const [calendarDataRaw, setCalendarDataRaw] = useState<Record<string, number> | null>(null);
+  const [calendarLoading, setCalendarLoading] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     let isMounted = true;
@@ -63,15 +72,45 @@ export default function LeetCodeStats() {
     };
   }, [username]);
 
+  // Fetch specific year calendar data
+  useEffect(() => {
+    let isMounted = true;
+    async function fetchCalendar() {
+      setCalendarLoading(true);
+      try {
+        const res = await fetch(`https://alfa-leetcode-api.onrender.com/${username}/calendar?year=${selectedYear}`);
+        if (!res.ok) throw new Error('Failed to fetch calendar');
+        const json = await res.json();
+        if (isMounted) {
+          if (json.submissionCalendar) {
+            setCalendarDataRaw(JSON.parse(json.submissionCalendar));
+          } else {
+            setCalendarDataRaw({});
+          }
+        }
+      } catch (err) {
+        if (isMounted) {
+          setCalendarDataRaw({});
+        }
+      } finally {
+        if (isMounted) {
+          setCalendarLoading(false);
+        }
+      }
+    }
+    fetchCalendar();
+    return () => { isMounted = false; };
+  }, [username, selectedYear]);
+
   // Process calendar data whenever data or selectedYear changes
   const { calendarData, yearContributions } = useMemo(() => {
-    if (!data || !data.submissionCalendar) {
+    if (!calendarDataRaw) {
       return { calendarData: [], yearContributions: 0 };
     }
 
     // Parse submissions into YYYY-MM-DD map in UTC to prevent day shifts
     const submissionMap: Record<string, number> = {};
-    Object.entries(data.submissionCalendar).forEach(([timestampSecStr, count]) => {
+    Object.entries(calendarDataRaw).forEach(([timestampSecStr, count]) => {
       const timestampSec = parseInt(timestampSecStr, 10);
       const dateObj = new Date(timestampSec * 1000);
       const y = dateObj.getUTCFullYear();
@@ -109,7 +148,12 @@ export default function LeetCodeStats() {
     }
 
     return { calendarData: yearData, yearContributions: totalForYear };
-  }, [data, selectedYear]);
+  }, [calendarDataRaw, selectedYear]);
+
+  const isMobile = windowWidth < 768;
+  const blockSize = isMobile ? 9 : 13;
+  const blockMargin = isMobile ? 2 : 4;
+  const fontSize = isMobile ? 10 : 13;
 
   const formatTimeAgo = (timestampStr: string) => {
     const timestampSec = parseInt(timestampStr, 10);
@@ -334,7 +378,7 @@ export default function LeetCodeStats() {
                         <button
                           key={y}
                           onClick={() => setSelectedYear(y)}
-                          className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
+                          className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition ${
                             selectedYear === y
                               ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-slate-900 shadow-md shadow-orange-500/20'
                               : 'bg-white/5 text-gray-400 hover:bg-white/10'
@@ -346,8 +390,13 @@ export default function LeetCodeStats() {
                     </div>
                   </div>
 
-                  <div className="w-full overflow-x-auto touch-pan-x py-6 px-4 bg-white/5 rounded-xl scrollbar-thin scrollbar-thumb-orange-500/30 scrollbar-track-white/5">
-                    <div className="min-w-[800px]">
+                  <div className="w-full overflow-x-auto touch-pan-x py-6 px-4 bg-white/5 rounded-xl scrollbar-thin scrollbar-thumb-orange-500/30 scrollbar-track-white/5 relative">
+                    {calendarLoading && (
+                      <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm z-10 flex items-center justify-center rounded-xl">
+                        <div className="w-6 h-6 border-2 border-amber-500 border-t-transparent rounded-full animate-spin"></div>
+                      </div>
+                    )}
+                    <div className="min-w-max pb-2">
                       {calendarData.length > 0 ? (
                         <ActivityCalendar
                           data={calendarData}
@@ -355,9 +404,9 @@ export default function LeetCodeStats() {
                           theme={{
                             dark: ['#1e293b', '#3b2314', '#7c2d12', '#ea580c', '#fb923c'],
                           }}
-                          fontSize={13}
-                          blockSize={13}
-                          blockMargin={4}
+                          fontSize={fontSize}
+                          blockSize={blockSize}
+                          blockMargin={blockMargin}
                           labels={{
                             totalCount: '{{count}} submissions in {{year}}',
                           }}

@@ -13,6 +13,7 @@ const languageColorMap: Record<string, string> = {
 
 export default function GitHubStats() {
   const gitHubUsername = 'ayushsupath';
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedYear, setSelectedYear] = useState<number>(2026);
@@ -27,6 +28,12 @@ export default function GitHubStats() {
       { lang: 'CSS/HTML', percent: 10, color: languageColorMap.CSS },
     ]
   );
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     let isMounted = true;
@@ -93,6 +100,11 @@ export default function GitHubStats() {
       isMounted = false;
     };
   }, [gitHubUsername]);
+
+  const isMobile = windowWidth < 768;
+  const blockSize = isMobile ? 9 : 13;
+  const blockMargin = isMobile ? 2 : 4;
+  const fontSize = isMobile ? 10 : 13;
 
   return (
     <section className="bg-dark-bg py-20 md:py-32 px-4 md:px-8 relative">
@@ -227,7 +239,7 @@ export default function GitHubStats() {
               <div className="flex-1 min-w-0">
                 <div className="text-gray-300 mb-4 font-bold">Contribution Activity Graph</div>
                 <div className="w-full overflow-x-auto touch-pan-x py-6 px-4 bg-white/5 rounded-xl scrollbar-thin scrollbar-thumb-lime-neon/30 scrollbar-track-white/5">
-                  <div className="min-w-[800px]">
+                  <div className="min-w-max pb-2">
                     <GitHubCalendar
                       key={selectedYear}
                       username={gitHubUsername}
@@ -236,9 +248,9 @@ export default function GitHubStats() {
                       theme={{
                         dark: ['#1e293b', '#0f2f1d', '#15803d', '#22c55e', '#bef264'],
                       }}
-                      fontSize={13}
-                      blockSize={13}
-                      blockMargin={4}
+                      fontSize={fontSize}
+                      blockSize={blockSize}
+                      blockMargin={blockMargin}
                       labels={{
                         totalCount: '{{count}} contributions in {{year}}',
                       }}
@@ -253,7 +265,7 @@ export default function GitHubStats() {
                   <button
                     key={y}
                     onClick={() => setSelectedYear(y)}
-                    className={`px-4 py-2 rounded-lg text-sm font-semibold transition ${
+                    className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition ${
                       selectedYear === y
                         ? 'bg-lime-neon text-slate-900 shadow-md shadow-lime-neon/20'
                         : 'bg-white/5 text-gray-400 hover:bg-white/10'
