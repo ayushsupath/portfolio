@@ -70,7 +70,7 @@ a, button, input[type="range"]::-webkit-slider-thumb, .cube-face {
   height: 50vh;
   display: flex;
   align-items: center;
-  justify-center: center;
+  justify-content: center;
   /* background images will be inline */
 }
 .cube-face-front  { transform: translateZ(25vh); }
@@ -88,6 +88,7 @@ a, button, input[type="range"]::-webkit-slider-thumb, .cube-face {
 /* Custom Glow Range Slider */
 input[type="range"].glow-slider {
   -webkit-appearance: none;
+  appearance: none;
   width: 100%;
   background: transparent;
 }
@@ -99,6 +100,7 @@ input[type="range"].glow-slider::-webkit-slider-runnable-track {
 }
 input[type="range"].glow-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
+  appearance: none;
   height: 24px;
   width: 24px;
   border-radius: 50%;
