@@ -1,5 +1,6 @@
 import Hero3D from '../components/Hero3D';
 import GitHubStats from '../components/GitHubStats';
+import LeetCodeStats from '../components/LeetCodeStats';
 
 export default function Home() {
   return (
@@ -27,6 +28,7 @@ export default function Home() {
 
       {/* GitHub Stats Section */}
       <GitHubStats />
+      <LeetCodeStats />
     </div>
   );
 }

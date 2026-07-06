@@ -131,3 +131,8 @@ input[type="range"].glow-slider:focus::-webkit-slider-thumb {
   font-size: 12px !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
 }
+
+.react-activity-calendar rect {
+  rx: 3;
+  ry: 3;
+}
