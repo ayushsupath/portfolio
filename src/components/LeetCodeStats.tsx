@@ -52,8 +52,29 @@ export default function LeetCodeStats() {
           throw new Error(`LeetCode API returned ${res.status}`);
         }
         const json = await res.json();
+        
+        if (!json || Object.keys(json).length === 0 || json.errors) {
+          throw new Error('API returned an empty or invalid response');
+        }
+
+        const safeData: LeetCodeData = {
+          totalSolved: json.totalSolved ?? 0,
+          ranking: json.ranking ?? 0,
+          contributionPoint: json.contributionPoint ?? 0,
+          reputation: json.reputation ?? 0,
+          easySolved: json.easySolved ?? 0,
+          totalEasy: json.totalEasy ?? 0,
+          mediumSolved: json.mediumSolved ?? 0,
+          totalMedium: json.totalMedium ?? 0,
+          hardSolved: json.hardSolved ?? 0,
+          totalHard: json.totalHard ?? 0,
+          submissionCalendar: json.submissionCalendar ?? {},
+          recentSubmissions: Array.isArray(json.recentSubmissions) ? json.recentSubmissions : [],
+          totalQuestions: json.totalQuestions ?? 0,
+        };
+
         if (isMounted) {
-          setData(json);
+          setData(safeData);
         }
       } catch (err) {
         if (isMounted) {
@@ -291,25 +312,25 @@ export default function LeetCodeStats() {
                     <div className="flex justify-between items-center p-3 bg-white/5 rounded-lg hover:bg-white/10 transition">
                       <span className="text-gray-400">Global Ranking</span>
                       <span className="text-xl font-bold text-amber-400">
-                        #{data.ranking.toLocaleString()}
+                        #{(data.ranking ?? 0).toLocaleString()}
                       </span>
                     </div>
                     <div className="flex justify-between items-center p-3 bg-white/5 rounded-lg hover:bg-white/10 transition">
                       <span className="text-gray-400">Total Solved</span>
                       <span className="text-xl font-bold text-emerald-400">
-                        {data.totalSolved} <span className="text-xs text-gray-500">/ {data.totalQuestions}</span>
+                        {data.totalSolved ?? 0} <span className="text-xs text-gray-500">/ {data.totalQuestions ?? 0}</span>
                       </span>
                     </div>
                     <div className="flex justify-between items-center p-3 bg-white/5 rounded-lg hover:bg-white/10 transition">
                       <span className="text-gray-400">Contribution Points</span>
                       <span className="text-xl font-bold text-orange-400">
-                        {data.contributionPoint}
+                        {data.contributionPoint ?? 0}
                       </span>
                     </div>
                     <div className="flex justify-between items-center p-3 bg-white/5 rounded-lg hover:bg-white/10 transition">
                       <span className="text-gray-400">Reputation</span>
                       <span className="text-xl font-bold text-purple-400">
-                        {data.reputation}
+                        {data.reputation ?? 0}
                       </span>
                     </div>
                   </div>
@@ -338,20 +359,20 @@ export default function LeetCodeStats() {
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                       <CircularProgress
                         title="Easy Problems"
-                        solved={data.easySolved}
-                        total={data.totalEasy}
+                        solved={data.easySolved ?? 0}
+                        total={data.totalEasy ?? 0}
                         color="easy"
                       />
                       <CircularProgress
                         title="Medium Problems"
-                        solved={data.mediumSolved}
-                        total={data.totalMedium}
+                        solved={data.mediumSolved ?? 0}
+                        total={data.totalMedium ?? 0}
                         color="medium"
                       />
                       <CircularProgress
                         title="Hard Problems"
-                        solved={data.hardSolved}
-                        total={data.totalHard}
+                        solved={data.hardSolved ?? 0}
+                        total={data.totalHard ?? 0}
                         color="hard"
                       />
                     </div>

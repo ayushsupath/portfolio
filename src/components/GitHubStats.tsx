@@ -57,17 +57,21 @@ export default function GitHubStats() {
 
         if (!isMounted) return;
 
-        setPublicRepos(userData.public_repos ?? 0);
-        setFollowers(userData.followers ?? 0);
+        // Fallbacks for user data fields
+        setPublicRepos(userData?.public_repos ?? 0);
+        setFollowers(userData?.followers ?? 0);
 
-        const starCount = reposData.reduce(
-          (sum: number, repo: { stargazers_count: number }) => sum + (repo.stargazers_count || 0),
+        // Safeguard against non-array responses (e.g. rate limit error objects)
+        const safeReposData = Array.isArray(reposData) ? reposData : [];
+
+        const starCount = safeReposData.reduce(
+          (sum: number, repo: any) => sum + (repo?.stargazers_count || 0),
           0
         );
         setTotalStars(starCount);
 
-        const languageCounts = reposData.reduce<Record<string, number>>((acc, repo: { language: string | null }) => {
-          const language = repo.language || 'Other';
+        const languageCounts = safeReposData.reduce<Record<string, number>>((acc, repo: any) => {
+          const language = repo?.language || 'Other';
           acc[language] = (acc[language] || 0) + 1;
           return acc;
         }, {});

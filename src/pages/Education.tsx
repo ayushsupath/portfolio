@@ -1,3 +1,5 @@
+import { GraduationCap } from 'lucide-react';
+
 const education = [
   {
     degree: 'Master of Computer Applications (MCA)',

@@ -2,6 +2,18 @@ import { Briefcase } from 'lucide-react';
 
 const experiences = [
   {
+    title: 'Software Engineer Intern',
+    company: 'Ideactra Technologies Pvt. Ltd',
+    location: 'Remote',
+    duration: 'July 2026 - Present',
+    color: 'from-purple-500 to-indigo-600',
+    responsibilities: [
+      'Contributing to full-stack development of IdeactraConnect using React (Vite, Tailwind CSS) on the frontend and FastAPI (Python, SQL  Alchemy ORM) on the backend, with PostgreSQL as the database',
+      'Working with WebSockets for real-time features, JWT-based authentication, and RESTful API design',
+      'Following an agile development process — sprint-based tickets on ClickUp, Git version control, and collaborative code reviews via GitHub PRs'
+    ]
+  },
+  {
     title: 'Machine Learning Intern',
     company: 'Skillbit Technologies',
     location: 'Remote',
