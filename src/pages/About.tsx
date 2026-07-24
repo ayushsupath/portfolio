@@ -57,11 +57,7 @@ export default function About() {
             </div>
           </div>
           <p className="text-xl text-gray-300 leading-relaxed text-center sm:text-base">
-            Motivated MCA student at SGSITS with strong skills in full-stack development and a background in Cloud and
-            Information Security. Experienced in building scalable web apps and passionate about learning and solving
-            real-world problems. I specialize in React.js, Node.js, and modern JavaScript frameworks, with hands-on
-            experience in AI tools like Bolt.ai, Cursor.ai, and Lovable.ai. Seeking internship or entry-level role to
-            contribute technical skills and grow professionally.
+            Full-Stack Software Engineer and MCA student specializing in building scalable, high-performance web applications. Experienced in turning complex product requirements into clean, production-ready code using React.js, Node.js, and modern cloud ecosystems. Passionate about leveraging AI-assisted development workflows to accelerate delivery and build intuitive digital experiences.
           </p>
         </div>
 
